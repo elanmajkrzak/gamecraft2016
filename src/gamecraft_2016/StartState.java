@@ -3,6 +3,7 @@ package gamecraft_2016;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.glfwGetKey;
+import static org.lwjgl.glfw.GLFW.glfwWaitEvents;
 import static org.lwjgl.opengl.GL11.glClearColor;
 
 import java.nio.IntBuffer;
@@ -18,8 +19,10 @@ public class StartState implements State {
 
     private final Renderer renderer;
     private Texture bg_texture;
+    private Texture story_texture;
     private Background background;
     private boolean active = false;
+    private boolean storyShown = false;
 	private Audio music;
 
 	public StartState(Renderer renderer, Audio music) {
@@ -32,14 +35,14 @@ public class StartState implements State {
         long window = GLFW.glfwGetCurrentContext();
 		if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS) {
 			//do a thing
-			this.setActive(false);
+			if (storyShown) {
+				this.setActive(false);
+			} else {
+				background.update(story_texture);
+				storyShown = true;
+			}
 		}
 
-	}
-
-	@Override
-	public void update(float delta) {
-		
 	}
 
 	@Override
@@ -49,7 +52,12 @@ public class StartState implements State {
 
         /* Draw game objects */
         renderer.begin();
-        background.render(renderer, bg_texture, Color.WHITE);
+        if (storyShown) {
+        	background.render(renderer, story_texture, Color.WHITE);
+        } else {
+        	background.render(renderer, bg_texture, Color.WHITE);
+        }
+        glfwWaitEvents();
         renderer.end();
 
 	}
@@ -67,6 +75,7 @@ public class StartState implements State {
 
         /* Load textures */
         bg_texture = Texture.loadTexture("res/startscreen.png");
+        story_texture = Texture.loadTexture("res/Storyscreen.png");
         /* Initialize game objects */
         background = new Background(Color.WHITE, bg_texture, 0f, 0f, width, height );
         
@@ -82,7 +91,9 @@ public class StartState implements State {
 
 	@Override
 	public void exit() {
+		System.out.println("exit StartState");
         bg_texture.delete();
+        story_texture.delete();
         music.stop();
 	}
 
@@ -94,6 +105,12 @@ public class StartState implements State {
 	@Override
 	public boolean isActive() {
 		return active;
+	}
+
+	@Override
+	public void update(float delta) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

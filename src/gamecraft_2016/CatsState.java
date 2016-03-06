@@ -63,8 +63,6 @@ public class CatsState implements State {
     private Image moveIndicator;
     
     private boolean moveable = false;
-	private int gameWidth;
-	private int gameHeight;
 	private boolean active = false;
 	private Audio music;
     
@@ -148,9 +146,6 @@ public class CatsState implements State {
         music.play();
         
         moveIndicator = new Image(move_texture, width, height);
-        
-        gameWidth = width;
-        gameHeight = height;
 
         /* Set clear color to gray */
         glClearColor(0.5f, 0.5f, 0.5f, 1f);
@@ -160,6 +155,7 @@ public class CatsState implements State {
     public void exit() {
     	girl_texture.delete();
         boy_texture.delete();
+        move_texture.delete();
     	boy.delete();
     	girl.delete();
         bg_texture.delete();

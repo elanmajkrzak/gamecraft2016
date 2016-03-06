@@ -46,10 +46,11 @@ public class Cat extends Entity {
     //this should really be an associative array but whatever
     private Texture[] textures;
     private Texture cur_texture;
+    private static int num_directions = 3;
 
     public Cat(Color color, Texture texture, String[] textures, float x, float y, boolean player) {
     	super(color, texture, x, y, 0, 20, 100, 0, 0);
-    	this.textures = new Texture[textures.length];
+    	this.textures = new Texture[num_directions];
     	for (int i = 0; i < textures.length; i++) {
     		this.textures[i] = Texture.loadTexture(textures[i]);
     	}
@@ -101,7 +102,7 @@ public class Cat extends Entity {
     }
     
     public void delete() {
-    	for (int i = 0; i < textures.length; i++) {
+    	for (int i = 0; i < num_directions; i++) {
     		textures[i].delete();
     	}
     }

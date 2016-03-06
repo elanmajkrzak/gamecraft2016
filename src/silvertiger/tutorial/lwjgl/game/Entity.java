@@ -44,7 +44,7 @@ public abstract class Entity {
     protected Vector2f direction;
 
     protected final Color color;
-    protected final Texture texture;
+    protected Texture texture;
 
     protected final int width;
     protected final int height;
@@ -91,18 +91,8 @@ public abstract class Entity {
      *
      * @param delta Time difference in seconds
      */
-    public void update(float delta) {
-        previousPosition = new Vector2f(position.x, position.y);
-        if (direction.length() != 0) {
-            direction = direction.normalize();
-        }
-        Vector2f velocity = direction.scale(speed);
-        position = position.add(velocity.scale(delta));
-
-        aabb.min.x = position.x;
-        aabb.min.y = position.y;
-        aabb.max.x = position.x + width;
-        aabb.max.y = position.y + height;
+    public void update(Texture texture) {
+        this.texture = texture;
     }
 
     /**
