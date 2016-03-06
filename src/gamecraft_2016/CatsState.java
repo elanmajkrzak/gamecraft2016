@@ -46,6 +46,7 @@ public class CatsState implements State {
     private Texture bg_texture;
     private Texture girl_texture;
     private Texture boy_texture;
+	private Texture move_texture;
     private final Renderer renderer;
     private static final int total_steps = 6;
     private int girl_steps = 0;
@@ -58,6 +59,8 @@ public class CatsState implements State {
     private int[] boy_moves = new int[total_steps];
     //initialize to something we won't set it as
     private int last_move = -1;
+    
+    private Image moveIndicator;
     
     private boolean moveable = false;
 	private int gameWidth;
@@ -115,12 +118,7 @@ public class CatsState implements State {
         girl.render(renderer, 450f, 0f);
         
         if (moveable) {
-            String danceText = "DANCE";
-            int danceTextWidth = renderer.getTextWidth(danceText);
-            int danceTextHeight = renderer.getTextHeight(danceText);
-            float danceTextX = (gameWidth - danceTextWidth) / 2f;
-            float danceTextY = gameHeight - danceTextHeight - 5;
-            renderer.drawText(danceText, danceTextX, danceTextY, Color.BLACK);
+        	moveIndicator.render(renderer, 800f, 450);
         }
     }
 
@@ -139,6 +137,7 @@ public class CatsState implements State {
         bg_texture = Texture.loadTexture("res/KlubBackground.png");
         boy_texture = Texture.loadTexture("res/boyleft.png");
         girl_texture = Texture.loadTexture("res/girlleft.png");
+        move_texture = Texture.loadTexture("res/danceon.png");
 
         /* Initialize game objects */
         background = new Background(new Color(0.792f, 0.714f, 0.82f), bg_texture, 0f, 0f, width, height );
@@ -147,6 +146,8 @@ public class CatsState implements State {
         AL10.alGetError();
         music.loadFile("res/Sound/GameMusic/gameplay.wav", 1);
         music.play();
+        
+        moveIndicator = new Image(move_texture, width, height);
         
         gameWidth = width;
         gameHeight = height;
