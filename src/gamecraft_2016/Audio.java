@@ -72,7 +72,9 @@ public class Audio {
 	  }
 	  
 	  public void stop() {
+		  System.out.println("Audio stop");
 		  AL10.alSourceStop(source.get(0));
+		  AL10.alDeleteSources(source);
 	  }
 	  
 	  public void loadFile(String path, int pos) {

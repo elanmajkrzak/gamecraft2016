@@ -58,7 +58,7 @@ public class CatsState implements State {
     private int[] girl_moves = new int[total_steps];
     private int[] boy_moves = new int[total_steps];
     //initialize to something we won't set it as
-    private int last_move = -1;
+    private int last_move = 0;
     
     private Image moveIndicator;
     
